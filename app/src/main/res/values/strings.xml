@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Ficha2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quick_record">Registro rápido</string>
+    <string name="manual_record">Registro manual</string>
+    <string name="nav_title_summary">Resumen de registros</string>
+    <string name="my_records">Mis registros</string>
+    <string name="btn_quick_entry">Registrar entrada</string>
+    <string name="btn_quick_exit">Registrar salida</string>
+
+    <!-- Pickers -->
+    <string name="formato_fecha">dd/mm/yyyy</string>
+    <string name="formato_hora">hh:mm</string>
+    <string name="tv_date">Fecha</string>
+
+
+    <string name="tv_time_entry">Entrada</string>
+    <string name="tv_time_exit">Salida</string>
+    <string name="btn_send">Enviar</string>
+    <string name="tv_login">Inicio de sesión</string>
+    <string name="et_user">Usuario</string>
+    <string name="et_password">Contraseña</string>
+    <string name="btn_login">Login</string>
+    <string name="action_logout">Logout</string>
+</resources>
