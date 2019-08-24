@@ -10,6 +10,10 @@ public final class ServerURLs {
     public static final String URL_QUICK_ENTRY = ROOT_URL + REST_API + "/quick_entry";
     public static final String URL_QUICK_EXIT = ROOT_URL + REST_API + "/quick_exit";
 
+    public static final String URL_GET_RECORDS = ROOT_URL + REST_API + "/records";
+
+    public static final String URL_GET_INCOMPLETED_RECORD = ROOT_URL + REST_API + "/incompleted_record";
+
     public static final String DUMMY_EMPLOYEE_1 = "5d3a1257899c8612f42b7cea";
     public static final String URL_LOGIN = ROOT_URL + REST_API + "/login";;
 }
