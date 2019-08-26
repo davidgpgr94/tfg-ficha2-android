@@ -8,16 +8,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -44,13 +48,15 @@ import uva.inf.davidgo.ficha2.utils.ServerURLs;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
 
-public class ManualFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
+public class ManualFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, CompoundButton.OnCheckedChangeListener {
     private static final String CERO = "0";
     private static final String BARRA = "/";
     private static final String DOS_PUNTOS = ":";
 
     // Calendario para obtener fecha y hora
     public final Calendar cal = Calendar.getInstance();
+
+
 
     // Variables para obtener la fecha
     final int mes = cal.get(Calendar.MONTH);
@@ -61,18 +67,19 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
     final int hora = cal.get(Calendar.HOUR_OF_DAY);
     final int minuto = cal.get(Calendar.MINUTE);
 
-    // Zona horaria del usuario
-    final TimeZone user_time_zone = TimeZone.getDefault();
-
-
     EditText et_date, et_time_entry, et_time_exit;
     TextView tv_date, tv_time_entry, tv_time_exit;
     Button btn_send;
     TextView tv_timezone_entry, tv_timezone_exit;
 
+    Switch sw_completed_record;
+    TextView tv_incompleted_record_date, tv_incompleted_record_entry, tv_incompleted_record_exit;
+
     ProgressBar pb_spinner_manual;
 
     SharedPreferences prefs;
+
+    Record incompletedRecord = null;
 
     private OnFragmentInteractionListener mListener;
     public ManualFragment() {
@@ -83,6 +90,8 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_manual, container, false);
+
+        cal.setTimeZone(TimeZone.getDefault());
 
         et_date = view.findViewById(R.id.et_date);
         et_time_entry = view.findViewById(R.id.et_time_entry);
@@ -111,17 +120,30 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
         et_time_exit.setOnClickListener(this);
         btn_send.setOnClickListener(this);
 
-
-
         tv_timezone_entry = view.findViewById(R.id.tv_timezone_entry);
         tv_timezone_exit = view.findViewById(R.id.tv_timezone_exit);
 
-        tv_timezone_entry.setText("Zona horaria: " + user_time_zone.getDisplayName(false, TimeZone.SHORT));
-        tv_timezone_exit.setText("Zona horaria: " + user_time_zone.getDisplayName(false, TimeZone.SHORT));
+        SimpleDateFormat sdf_time_zone = new SimpleDateFormat("z");
+
+        tv_timezone_entry.setText(getContext().getString(R.string.tv_time_zone) + " " + sdf_time_zone.format(cal.getTime()));
+        tv_timezone_exit.setText(getContext().getString(R.string.tv_time_zone) + " " + sdf_time_zone.format(cal.getTime()));
 
         pb_spinner_manual = view.findViewById(R.id.pb_spinner_manual);
+        pb_spinner_manual.setVisibility(View.VISIBLE);
 
+
+        // Preferencias
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        // Registro incompleto
+        sw_completed_record = view.findViewById(R.id.sw_complete_record);
+        tv_incompleted_record_date = view.findViewById(R.id.tv_incompleted_record_date);
+        tv_incompleted_record_entry = view.findViewById(R.id.tv_incompleted_record_entry);
+        tv_incompleted_record_exit = view.findViewById(R.id.tv_incompleted_record_exit);
+
+        sw_completed_record.setOnCheckedChangeListener(this);
+
+        setIncompletedRecord();
 
         return view;
     }
@@ -191,6 +213,7 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                 et_date.setText(dia_formateado + BARRA + mes_formateado + BARRA + year);
             }
         }, anio, mes, dia);
+        recoger_fecha.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime());
         recoger_fecha.show();
     }
 
@@ -222,7 +245,7 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
             cal_entry.setTime(fecha);
             cal_entry.set(Calendar.HOUR_OF_DAY, entry_hour);
             cal_entry.set(Calendar.MINUTE, entry_minute);
-            cal_entry.setTimeZone(user_time_zone);
+            cal_entry.setTimeZone(TimeZone.getDefault());
 
             if (conExit) {
                 Calendar cal_exit = Calendar.getInstance();
@@ -232,7 +255,7 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                 cal_exit.setTime(fecha);
                 cal_exit.set(Calendar.HOUR_OF_DAY, exit_hour);
                 cal_exit.set(Calendar.MINUTE, exit_minute);
-                cal_exit.setTimeZone(user_time_zone);
+                cal_exit.setTimeZone(TimeZone.getDefault());
 
                 call = recordService.manual_record(prefs.getString(SharedPreferencesKeys.TOKEN, ""), cal_entry.getTime(), cal_exit.getTime());
             } else {
@@ -270,6 +293,63 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
         }
     }
 
+    private void setIncompletedRecord() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        RecordService recordService = retrofit.create(RecordService.class);
+
+        Call<Record> call = recordService.get_incompleted_record(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
+        call.enqueue(new Callback<Record>() {
+            @Override
+            public void onResponse(Call<Record> call, Response<Record> response) {
+                pb_spinner_manual.setVisibility(View.GONE);
+
+                if (response.isSuccessful()) {
+                    if (response.code() == 204) { // Code 204=NoContent -> No hay registro incompleto
+                        tv_incompleted_record_date.setText("-");
+                        tv_incompleted_record_entry.setText("-");
+                        tv_incompleted_record_exit.setText("-");
+
+                        // Desactivamos el switch
+                        sw_completed_record.setEnabled(false);
+                        sw_completed_record.setChecked(false);
+
+                        incompletedRecord = null;
+                    } else { // Hay un registro incompleto
+                        incompletedRecord = response.body();
+                        SimpleDateFormat sdf_date = new SimpleDateFormat("dd-MM-yyyy");
+                        sdf_date.setTimeZone(TimeZone.getDefault());
+                        SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm z");
+                        sdf_time.setTimeZone(TimeZone.getDefault());
+                        String fecha = sdf_date.format(incompletedRecord.getEntry());
+                        String entry = sdf_time.format(incompletedRecord.getEntry());
+
+                        tv_incompleted_record_date.setText(fecha);
+                        tv_incompleted_record_entry.setText(entry);
+                        tv_incompleted_record_exit.setText("-");
+                    }
+                } else {
+                    incompletedRecord = null;
+                    try {
+                        JSONObject msg = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Record> call, Throwable t) {
+                pb_spinner_manual.setVisibility(View.GONE);
+                t.getCause().printStackTrace();
+                incompletedRecord = null;
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
@@ -284,6 +364,41 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                     obtenerHora(et_time_exit);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView.getId() == R.id.sw_complete_record) {
+            if (isChecked && incompletedRecord != null) {
+                // Solo se puede modificar si hay registro incompleto
+                SimpleDateFormat sdf_date = new SimpleDateFormat("dd/MM/yyyy");
+                sdf_date.setTimeZone(TimeZone.getDefault());
+                SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm");
+                sdf_time.setTimeZone(TimeZone.getDefault());
+                String fecha = sdf_date.format(incompletedRecord.getEntry());
+                String entry = sdf_time.format(incompletedRecord.getEntry());
+
+                et_date.setText(fecha);
+                et_time_entry.setText(entry);
+
+                et_date.setClickable(false);
+                et_time_entry.setClickable(false);
+                et_date.setFocusable(false);
+                et_time_entry.setFocusable(false);
+
+                tv_date.setClickable(false);
+                tv_time_entry.setClickable(false);
+            } else {
+                et_date.setFocusableInTouchMode(true);
+                et_time_entry.setFocusableInTouchMode(true);
+                et_date.setClickable(true);
+                et_time_entry.setClickable(true);
+
+                tv_date.setClickable(true);
+                tv_time_entry.setClickable(true);
+            }
+
         }
     }
 
