@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import uva.inf.davidgo.ficha2.fragments.MainFragment;
 import uva.inf.davidgo.ficha2.fragments.ManualFragment;
+import uva.inf.davidgo.ficha2.fragments.RecordsFragment;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
 public class MainActivity extends AppCompatActivity
@@ -117,20 +118,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment my_fragment = null;
+        Fragment myFragment = null;
 
-        boolean fragment_selected = false;
+        boolean fragmentSelected = false;
 
         if (id == R.id.nav_quick_record) {
-            my_fragment = new MainFragment();
-            fragment_selected = true;
+            myFragment = new MainFragment();
+            fragmentSelected = true;
         } else if (id == R.id.nav_manual_record) {
-            my_fragment = new ManualFragment();
-            fragment_selected = true;
+            myFragment = new ManualFragment();
+            fragmentSelected = true;
+        } else if (id == R.id.nav_my_records) {
+            myFragment = new RecordsFragment();
+            fragmentSelected = true;
         }
 
-        if (fragment_selected) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, my_fragment).commit();
+        if (fragmentSelected) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, myFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

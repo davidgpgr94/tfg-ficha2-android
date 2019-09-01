@@ -33,4 +33,7 @@
     <string name="action_logout">Logout</string>
 
     <string name="tv_switch_complete_record">Completar registro pendiente</string>
+    <string name="tv_employee_label">Empleados</string>
+    <string name="tv_signed_by_admin">Admin conf.</string>
+    <string name="tv_signed_by_user">User conf.</string>
 </resources>

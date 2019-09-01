@@ -136,7 +136,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         pb_spinner_quick.setVisibility(View.VISIBLE);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
         RecordService recordService = retrofit.create(RecordService.class);
-        Call<Record> call = recordService.quick_entry(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
+        Call<Record> call = recordService.quickEntry(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
 
         call.enqueue(new Callback<Record>() {
             @Override
@@ -146,6 +146,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), response.body().getEntry().toString(), Toast.LENGTH_SHORT).show();
                 } else {
                     try {
+                        Log.d("AAAAA:", response.errorBody().string());
                         JSONObject msg = new JSONObject(response.errorBody().string());
                         Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
@@ -169,7 +170,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         pb_spinner_quick.setVisibility(View.VISIBLE);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
         RecordService recordService = retrofit.create(RecordService.class);
-        Call<Record> call = recordService.quick_exit(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
+        Call<Record> call = recordService.quickExit(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
 
         call.enqueue(new Callback<Record>() {
             @Override
@@ -203,7 +204,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
         RecordService recordService = retrofit.create(RecordService.class);
 
-        Call<RecordsContext> call = recordService.get_my_today_records(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
+        Call<RecordsContext> call = recordService.getMyCurrentDayRecords(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
         call.enqueue(new Callback<RecordsContext>() {
             @Override
             public void onResponse(Call<RecordsContext> call, Response<RecordsContext> response) {
@@ -237,7 +238,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             public void onFailure(Call<RecordsContext> call, Throwable t) {
                 pb_spinner_quick.setVisibility(View.GONE);
                 Log.d("MAIN_GET_OnFailure:", t.getLocalizedMessage());
-                t.getCause().printStackTrace();
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -247,7 +247,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
         RecordService recordService = retrofit.create(RecordService.class);
 
-        Call<Record> call = recordService.get_incompleted_record(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
+        Call<Record> call = recordService.getIncompleteRecord(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
         call.enqueue(new Callback<Record>() {
             @Override
             public void onResponse(Call<Record> call, Response<Record> response) {

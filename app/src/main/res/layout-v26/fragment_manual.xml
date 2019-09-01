@@ -261,6 +261,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_time_exit" />
 
+            <ImageView
+                android:id="@+id/iv_clear_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:layout_constraintBottom_toBottomOf="@+id/et_date"
+                app:layout_constraintEnd_toEndOf="@+id/et_date"
+                app:layout_constraintTop_toTopOf="@+id/et_date"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_clear_entry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:layout_constraintBottom_toBottomOf="@+id/et_time_entry"
+                app:layout_constraintEnd_toEndOf="@+id/et_time_entry"
+                app:layout_constraintTop_toTopOf="@+id/et_time_entry"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_clear_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:layout_constraintBottom_toBottomOf="@+id/et_time_exit"
+                app:layout_constraintEnd_toEndOf="@+id/et_time_exit"
+                app:layout_constraintTop_toTopOf="@+id/et_time_exit"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
