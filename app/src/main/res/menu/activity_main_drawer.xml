@@ -15,7 +15,7 @@
             android:title="@string/manual_record" />
     </group>
 
-    <item android:title="@string/nav_title_summary">
+    <item android:title="@string/nav_title_summary" >
         <menu>
             <group android:checkableBehavior="single">
                 <item

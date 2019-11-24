@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -87,6 +88,17 @@ public class RecordWithConfirmationAdapter extends RecyclerView.Adapter<RecordWi
 
     public void clearData() {
         this.data.clear();
+    }
+
+    public float getTotalHours() {
+        float hours = 0;
+        for (Record record : this.data) {
+            Date entry = record.getEntry();
+            Date exit = record.getExit();
+            long diff = exit.getTime() - entry.getTime(); // ms
+            hours = hours + (diff / (1000 * 60 * 60));
+        }
+        return hours;
     }
 
     class RecordWithConfirmationViewHolder extends RecyclerView.ViewHolder {

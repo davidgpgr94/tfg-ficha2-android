@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import uva.inf.davidgo.ficha2.fragments.ExpandableRecordsFragment;
 import uva.inf.davidgo.ficha2.fragments.MainFragment;
 import uva.inf.davidgo.ficha2.fragments.ManualFragment;
 import uva.inf.davidgo.ficha2.fragments.RecordsFragment;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void logout() {
-        if (prefs. contains(SharedPreferencesKeys.TOKEN)) {
+        if (prefs.contains(SharedPreferencesKeys.TOKEN)) {
             prefs.edit().clear().commit();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
             myFragment = new ManualFragment();
             fragmentSelected = true;
         } else if (id == R.id.nav_my_records) {
-            myFragment = new RecordsFragment();
+            myFragment = new ExpandableRecordsFragment();
             fragmentSelected = true;
         }
 

@@ -99,7 +99,7 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
         et_time_entry = view.findViewById(R.id.et_time_entry);
         et_time_exit = view.findViewById(R.id.et_time_exit);
 
-        // Quitar el teclado para que solo salga los picker
+        // Quitar el teclado para que solo salgan los picker
         et_date.setInputType(InputType.TYPE_NULL);
         et_time_entry.setInputType(InputType.TYPE_NULL);
         et_time_exit.setInputType(InputType.TYPE_NULL);
@@ -545,6 +545,9 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
 
                 tv_date.setClickable(false);
                 tv_time_entry.setClickable(false);
+
+                iv_clear_date.setVisibility(View.GONE);
+                iv_clear_entry.setVisibility(View.GONE);
             } else {
                 et_date.setFocusableInTouchMode(true);
                 et_time_entry.setFocusableInTouchMode(true);
@@ -553,6 +556,12 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
 
                 tv_date.setClickable(true);
                 tv_time_entry.setClickable(true);
+                if (et_date.getText().length() > 0) {
+                    iv_clear_date.setVisibility(View.VISIBLE);
+                }
+                if (et_time_entry.getText().length() > 0) {
+                    iv_clear_entry.setVisibility(View.VISIBLE);
+                }
             }
 
         }

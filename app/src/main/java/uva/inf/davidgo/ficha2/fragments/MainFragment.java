@@ -34,6 +34,7 @@ import uva.inf.davidgo.ficha2.R;
 import uva.inf.davidgo.ficha2.adapters.RecordAdapter;
 import uva.inf.davidgo.ficha2.pojos.Record;
 import uva.inf.davidgo.ficha2.pojos.RecordsContext;
+import uva.inf.davidgo.ficha2.services.ApiClient;
 import uva.inf.davidgo.ficha2.services.RecordService;
 import uva.inf.davidgo.ficha2.utils.ServerURLs;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
@@ -134,8 +135,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     private void quickEntry() {
         pb_spinner_quick.setVisibility(View.VISIBLE);
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        RecordService recordService = retrofit.create(RecordService.class);
+        RecordService recordService = ApiClient.createService(RecordService.class);
         Call<Record> call = recordService.quickEntry(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
 
         call.enqueue(new Callback<Record>() {
@@ -168,8 +168,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     private void quickExit() {
         pb_spinner_quick.setVisibility(View.VISIBLE);
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        RecordService recordService = retrofit.create(RecordService.class);
+        RecordService recordService = ApiClient.createService(RecordService.class);
         Call<Record> call = recordService.quickExit(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
 
         call.enqueue(new Callback<Record>() {
@@ -201,8 +200,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     private void setUpRecordsAndButtons() {
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        RecordService recordService = retrofit.create(RecordService.class);
+        RecordService recordService = ApiClient.createService(RecordService.class);
 
         Call<RecordsContext> call = recordService.getMyCurrentDayRecords(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
         call.enqueue(new Callback<RecordsContext>() {
@@ -244,8 +242,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpButtons() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ServerURLs.ROOT_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        RecordService recordService = retrofit.create(RecordService.class);
+        RecordService recordService = ApiClient.createService(RecordService.class);
 
         Call<Record> call = recordService.getIncompleteRecord(prefs.getString(SharedPreferencesKeys.TOKEN, ""));
         call.enqueue(new Callback<Record>() {
@@ -261,14 +258,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     } else {
                         btn_quick_entry.setVisibility(View.GONE);
                         btn_quick_exit.setVisibility(View.VISIBLE);
-                        Record incompletedRecord = response.body();
+                        Record incompleteRecord = response.body();
                         Calendar cal = Calendar.getInstance();
                         cal.set(Calendar.HOUR_OF_DAY, 0);
                         cal.set(Calendar.MINUTE, 0);
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.MILLISECOND, 0);
                         Date today = cal.getTime();
-                        if ( incompletedRecord.getEntry().before(today) ) {
+                        if ( incompleteRecord.getEntry().before(today) ) {
                             btn_quick_exit.setEnabled(false);
                         } else {
                             btn_quick_exit.setEnabled(true);

@@ -42,4 +42,7 @@ public interface RecordService {
 
     @GET(ServerURLs.URL_GET_RECORDS)
     Call<RecordsContext> getRecords(@Header("Authorization") String token, @Query("page") int page, @Query("from") String from, @Query("to") String to);
+
+    @GET(ServerURLs.URL_GET_RECORDS)
+    Call<RecordsContext> getRecords(@Header("Authorization") String token, @Query("employee") String employeeId, @Query("page") int page, @Query("from") String from, @Query("to") String to);
 }

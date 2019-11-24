@@ -89,7 +89,7 @@ public class RecordsFragment extends Fragment implements View.OnClickListener {
 
         initTimeRangesValues();
 
-        // TODO: Admin
+        // TODO: Admin - Creo que ya esta terminado. Repasar!
         if (prefs.getBoolean(SharedPreferencesKeys.USER_IS_ADMIN, false)) {
             tv_label_employees = view.findViewById(R.id.tv_label_employees);
             sp_employees = view.findViewById(R.id.sp_employees);
@@ -199,6 +199,7 @@ public class RecordsFragment extends Fragment implements View.OnClickListener {
                 isLoading = false;
                 isLastPage = false;
                 recordsAdapter.clearData();
+                rv_records.scrollToPosition(0);
                 loadData(page, itemSelected);
             }
 
@@ -319,6 +320,7 @@ public class RecordsFragment extends Fragment implements View.OnClickListener {
                 page = 1;
                 isLoading = false;
                 isLastPage = false;
+                rv_records.scrollToPosition(0);
                 loadData(page, sp_time_range_filter.getSelectedItem().toString());
                 break;
         }

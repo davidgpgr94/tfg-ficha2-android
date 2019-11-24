@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     editor.putString(SharedPreferencesKeys.TOKEN, response.body().getToken());
                     editor.putString(SharedPreferencesKeys.USER_NAME, response.body().getEmployee().getName());
                     editor.putString(SharedPreferencesKeys.USER_SURNAME, response.body().getEmployee().getSurname());
+                    editor.putString(SharedPreferencesKeys.USER_LOGIN, response.body().getEmployee().getLogin());
                     editor.putBoolean(SharedPreferencesKeys.USER_IS_ADMIN, response.body().getEmployee().isIs_admin());
                     editor.apply();
 
