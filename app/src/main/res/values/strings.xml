@@ -20,6 +20,7 @@
     <string name="formato_fecha">dd/mm/yyyy</string>
     <string name="formato_hora">hh:mm</string>
     <string name="tv_date">Fecha</string>
+    <string name="tv_time_zone">Zona horaria:</string>
 
 
     <string name="tv_time_entry">Entrada</string>
@@ -30,4 +31,10 @@
     <string name="et_password">Contraseña</string>
     <string name="btn_login">Login</string>
     <string name="action_logout">Logout</string>
+
+    <string name="tv_switch_complete_record">Completar registro pendiente</string>
+    <string name="tv_employee_label">Empleados</string>
+    <string name="tv_signed_by_admin">Admin conf.</string>
+    <string name="tv_signed_by_user">User conf.</string>
+    <string name="tv_label_time_worked">Time worked:</string>
 </resources>

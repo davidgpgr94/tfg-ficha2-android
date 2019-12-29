@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Record {
     private String _id;
-    private String employee;
+    private Employee employee;
     private Date entry;
     private Date exit;
     private boolean signed_by_employee;
@@ -18,11 +18,11 @@ public class Record {
         this._id = _id;
     }
 
-    public String getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(String employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
@@ -57,4 +57,5 @@ public class Record {
     public void setSigned_by_admin(boolean signed_by_admin) {
         this.signed_by_admin = signed_by_admin;
     }
+
 }
