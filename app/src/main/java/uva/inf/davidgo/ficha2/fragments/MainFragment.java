@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +40,7 @@ import uva.inf.davidgo.ficha2.services.RecordService;
 import uva.inf.davidgo.ficha2.utils.ServerURLs;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,6 +92,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    protected int getNavigationItemId() {
+        return R.id.nav_quick_record;
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -113,14 +119,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_quick_entry:
                 pb_spinner_quick.setVisibility(View.VISIBLE);
                 quickEntry();
-                pb_spinner_quick.setVisibility(View.VISIBLE);
-                setUpRecordsAndButtons();
                 break;
             case R.id.btn_quick_exit:
                 pb_spinner_quick.setVisibility(View.VISIBLE);
                 quickExit();
-                pb_spinner_quick.setVisibility(View.VISIBLE);
-                setUpRecordsAndButtons();
                 break;
             default:
                 Log.d("MAIN_FRAGMENT", "Default case in onClick()");
@@ -144,11 +146,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 pb_spinner_quick.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), response.body().getEntry().toString(), Toast.LENGTH_SHORT).show();
+                    pb_spinner_quick.setVisibility(View.VISIBLE);
+                    setUpRecordsAndButtons();
                 } else {
                     try {
-                        Log.d("AAAAA:", response.errorBody().string());
+                        Log.d(TAG, "MainFragment - quickEntry");
                         JSONObject msg = new JSONObject(response.errorBody().string());
                         Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -177,10 +182,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 pb_spinner_quick.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), response.body().getExit().toString(), Toast.LENGTH_SHORT).show();
+                    pb_spinner_quick.setVisibility(View.VISIBLE);
+                    setUpRecordsAndButtons();
                 } else {
                     try {
+                        Log.d(TAG, "MainFragment - quickExit");
                         JSONObject msg = new JSONObject(response.errorBody().string());
                         Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -218,9 +227,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     setUpButtons();
                     pb_spinner_quick.setVisibility(View.GONE);
                 } else {
+                    pb_spinner_quick.setVisibility(View.GONE);
                     try {
+                        Log.d(TAG, "MainFragment - setUpRecordsAndButtons");
                         JSONObject msg = new JSONObject(response.errorBody().string());
                         Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         Log.d("MAIN_GET_CATCH_JSONExc", e.getMessage());
                         e.printStackTrace();
@@ -273,8 +285,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     }
                 } else {
                     try {
+                        Log.d(TAG, "MainFragment - setUpButtons");
                         JSONObject msg = new JSONObject(response.errorBody().string());
                         Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <item
+        android:id="@+id/settings_security_group"
+        android:title="@string/settings_security_group">
+        <menu>
+            <group
+                android:checkableBehavior="single" >
+
+                <item
+                    android:id="@+id/settings_password"
+                    android:icon="@drawable/ic_key"
+                    android:title="@string/settings_password"/>
+
+            </group>
+        </menu>
+    </item>
+
+
+</menu>

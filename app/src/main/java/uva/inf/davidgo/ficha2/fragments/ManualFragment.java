@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +50,7 @@ import uva.inf.davidgo.ficha2.utils.ServerURLs;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
 
-public class ManualFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, CompoundButton.OnCheckedChangeListener {
+public class ManualFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, CompoundButton.OnCheckedChangeListener {
     private static final String CERO = "0";
     private static final String BARRA = "/";
     private static final String DOS_PUNTOS = ":";
@@ -221,6 +222,11 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
     }
 
     @Override
+    protected int getNavigationItemId() {
+        return R.id.nav_manual_record;
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -369,6 +375,10 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                         et_time_exit.setText("");
                         pb_spinner_manual.setVisibility(View.VISIBLE);
                         setIncompletedRecord();
+                    } else if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        Log.d(TAG, "ManualFragment - manualRecord");
+                        Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                        onTokenNotValid();
                     } else {
                         try {
                             JSONObject msg = new JSONObject(response.errorBody().string());
@@ -419,6 +429,10 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                         et_time_exit.setText("");
                         pb_spinner_manual.setVisibility(View.VISIBLE);
                         setIncompletedRecord();
+                    } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        Log.d(TAG, "ManualFragment - manualExit");
+                        Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                        onTokenNotValid();
                     } else {
                         try {
                             JSONObject msg = new JSONObject(response.errorBody().string());
@@ -484,6 +498,10 @@ public class ManualFragment extends Fragment implements View.OnClickListener, Vi
                         tv_incompleted_record_entry.setText(entry);
                         tv_incompleted_record_exit.setText("-");
                     }
+                } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    Log.d(TAG, "ManualFragment - setIncompletedRecord");
+                    Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                    onTokenNotValid();
                 } else {
                     incompletedRecord = null;
                     try {

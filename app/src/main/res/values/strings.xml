@@ -11,6 +11,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="quick_record">Registro rápido</string>
     <string name="manual_record">Registro manual</string>
+    <string name="nav_settings">Ajustes</string>
     <string name="nav_title_summary">Resumen de registros</string>
     <string name="my_records">Mis registros</string>
     <string name="btn_quick_entry">Registrar entrada</string>
@@ -37,4 +38,15 @@
     <string name="tv_signed_by_admin">Admin conf.</string>
     <string name="tv_signed_by_user">User conf.</string>
     <string name="tv_label_time_worked">Time worked:</string>
+    <string name="nav_new_user">Añadir empleado</string>
+    <string name="nav_about">Acerca de Ficha2</string>
+    <string name="cb_admin">Administrador</string>
+    <string name="et_surname">Apellidos</string>
+    <string name="et_name">Nombre</string>
+    <string name="settings_password">Cambiar contraseña</string>
+    <string name="nav_admin">Administración</string>
+    <string name="settings_security_group">Seguridad</string>
+    <string name="change_password_title">Nueva contraseña</string>
+    <string name="et_password_repeat">Repetir contraseña</string>
+    <string name="et_old_password">Contraseña actual</string>
 </resources>

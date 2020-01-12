@@ -48,7 +48,10 @@ import uva.inf.davidgo.ficha2.services.RecordService;
 import uva.inf.davidgo.ficha2.utils.ServerURLs;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
-
+/**
+ * NOT USED
+ * TODO: remove this fragment
+ */
 public class RecordsFragment extends Fragment implements View.OnClickListener {
     String TAG = RecordsFragment.class.getSimpleName();
     public RecordsFragment() {

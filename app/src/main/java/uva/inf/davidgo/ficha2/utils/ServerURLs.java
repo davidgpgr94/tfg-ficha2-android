@@ -15,6 +15,8 @@ public final class ServerURLs {
     public static final String URL_GET_INCOMPLETED_RECORD = ROOT_URL + REST_API + "/incompleted_record";
 
     public static final String URL_LOGIN = ROOT_URL + REST_API + "/login";
+    public static final String URL_CREATE_EMPLOYEE = ROOT_URL + REST_API + "/register";
 
     public static final String URL_GET_EMPLOYEES = ROOT_URL + REST_API + "/employees";
+    public static final String URL_CHANGE_PASSWORD = ROOT_URL + REST_API + "/change_password";
 }

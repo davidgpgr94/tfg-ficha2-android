@@ -212,6 +212,11 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
         return view;
     }
 
+    @Override
+    protected int getNavigationItemId() {
+        return R.id.nav_my_records;
+    }
+
 
     /* Pagination methods */
     private void loadData(int page, String timeRange) {
@@ -238,7 +243,7 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     resultAction(serverResponse);
                     Log.d(TAG, "Total records: "+serverResponse.getTotal_records());
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    Log.d(TAG, "TOKEN: loadData de 2");
+                    Log.d(TAG, "ExpandableRecordsFragment - loadData(page, timeRange)");
                     Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
                     onTokenNotValid();
                 } else {
@@ -381,7 +386,7 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                             )
                     );
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    Log.d(TAG, "TOKEN: SetUpEmployeesSpinner");
+                    Log.d(TAG, "ExpandableRecordsFragment - setUpEmployeesSpinner");
                     Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
                     onTokenNotValid();
                 } else {
@@ -424,7 +429,7 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     RecordsContext serverResponse = response.body();
                     resultAction(serverResponse);
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    Log.d(TAG, "TOKEN: loadData de 3");
+                    Log.d(TAG, "ExpandableRecordsFragment - loadData(page, timeRange, employeeLogin)");
                     Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
                     onTokenNotValid();
                 } else {

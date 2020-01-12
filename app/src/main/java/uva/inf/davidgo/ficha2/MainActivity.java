@@ -24,7 +24,9 @@ import android.widget.Toast;
 import uva.inf.davidgo.ficha2.fragments.ExpandableRecordsFragment;
 import uva.inf.davidgo.ficha2.fragments.MainFragment;
 import uva.inf.davidgo.ficha2.fragments.ManualFragment;
+import uva.inf.davidgo.ficha2.fragments.NewEmployeeFragment;
 import uva.inf.davidgo.ficha2.fragments.RecordsFragment;
+import uva.inf.davidgo.ficha2.fragments.SettingsFragment;
 import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
 public class MainActivity extends AppCompatActivity
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity
             tv_header_main_user.setText(completo);
             if (prefs.getBoolean(SharedPreferencesKeys.USER_IS_ADMIN, false)) {
                 tv_header_main_is_admin.setText("Administrador");
+
+                navigationView.getMenu().findItem(R.id.admin_menu).setVisible(true);
+            } else {
+                navigationView.getMenu().findItem(R.id.admin_menu).setVisible(false);
             }
         }
     }
@@ -132,16 +138,24 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_records) {
             myFragment = new ExpandableRecordsFragment();
             fragmentSelected = true;
+        } else if (id == R.id.nav_new_user) {
+            myFragment = new NewEmployeeFragment();
+            fragmentSelected = true;
+        } else if (id == R.id.nav_settings) {
+            myFragment = new SettingsFragment();
+            fragmentSelected = true;
         }
 
         if (fragmentSelected) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, myFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, myFragment).addToBackStack("main").commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
