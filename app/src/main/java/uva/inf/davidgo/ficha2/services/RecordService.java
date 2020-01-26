@@ -1,8 +1,8 @@
 package uva.inf.davidgo.ficha2.services;
 
 import java.util.Date;
-import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -45,4 +45,10 @@ public interface RecordService {
 
     @GET(ServerURLs.URL_GET_RECORDS)
     Call<RecordsContext> getRecords(@Header("Authorization") String token, @Query("employee") String employeeId, @Query("page") int page, @Query("from") String from, @Query("to") String to);
+
+    @GET(ServerURLs.URL_GET_REPORT)
+    Call<ResponseBody> getReport(@Header("Authorization") String token, @Query("from") String from, @Query("to") String to);
+
+    @GET(ServerURLs.URL_GET_REPORT)
+    Call<ResponseBody> getReport(@Header("Authorization") String token, @Query("employee") String employeeId, @Query("from") String from, @Query("to") String to);
 }

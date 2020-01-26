@@ -87,7 +87,7 @@ public class RecordsFragment extends Fragment implements View.OnClickListener {
         pb_records = view.findViewById(R.id.pb_records);
         rv_records = view.findViewById(R.id.rv_records_records_fragment);
 
-        ib_refresh = view.findViewById(R.id.ib_refresh);
+        ib_refresh = view.findViewById(R.id.ib_download);
         ib_refresh.setOnClickListener(this);
 
         initTimeRangesValues();
@@ -318,7 +318,7 @@ public class RecordsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ib_refresh:
+            case R.id.ib_download:
                 recordsAdapter.clearData();
                 page = 1;
                 isLoading = false;

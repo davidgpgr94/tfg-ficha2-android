@@ -1,11 +1,18 @@
 package uva.inf.davidgo.ficha2.fragments;
 
 
-import android.content.SharedPreferences;
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,11 +27,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +45,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,8 +62,6 @@ import uva.inf.davidgo.ficha2.utils.SharedPreferencesKeys;
 
 
 public class ExpandableRecordsFragment extends BaseFragment implements View.OnClickListener {
-    // TODO: Se ha creado BaseFragment para usar su método de "logout" cuando en la respuesta de alguna llamada a la api nos devuelva un HTTP_UNAUTHORIZED debido a que el token ha expirado
-    // TODO: y así redirigir a la activity de logeo
     public ExpandableRecordsFragment() {}
     String TAG = ExpandableRecordsFragment.class.getSimpleName();
     /* Preferences */
@@ -75,7 +84,7 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
     private ProgressBar progressBar;
 
     /* Refresh Button */
-    private ImageButton buttonRefresh;
+    private ImageButton buttonDownload;
 
     /* Only Admin views */
     private TextView labelEmployees;
@@ -131,8 +140,8 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
 
 
         /* Refresh button */
-        buttonRefresh = view.findViewById(R.id.ib_refresh);
-        buttonRefresh.setOnClickListener(this);
+        buttonDownload = view.findViewById(R.id.ib_download);
+        buttonDownload.setOnClickListener(this);
 
 
         /* Only admin views */
@@ -288,19 +297,126 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ib_refresh:
-                sectionAdapter.removeAllSections();
-                page = 1;
-                isLoading = false;
-                isLastPage = false;
-                recyclerView.scrollToPosition(0);
-                if (prefs.getBoolean(SharedPreferencesKeys.USER_IS_ADMIN, false)) {
-                    loadData(page, (String) spinnerTimeRanges.getSelectedItem(), (String) spinnerEmployees.getSelectedItem());
+            case R.id.ib_download:
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
                 } else {
-                    loadData(page, (String) spinnerTimeRanges.getSelectedItem());
+                    downloadReport();
                 }
-
                 break;
+        }
+    }
+
+    /* ------------ */
+
+    /* Download PDF methods */
+    private void downloadReport() {
+        boolean isAdmin = prefs.getBoolean(SharedPreferencesKeys.USER_IS_ADMIN, false);
+        String token = prefs.getString(SharedPreferencesKeys.TOKEN, "");
+        String timeRange = (String) spinnerTimeRanges.getSelectedItem();
+        Date[] dates = timeRanges.get(timeRange);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String from, to;
+        from = sdf.format(dates[0]);
+        to = sdf.format(dates[1]);
+
+        Call<ResponseBody> call;
+        RecordService recordService = ApiClient.createService(RecordService.class);
+        if (isAdmin) {
+            String employeeLogin = (String) spinnerEmployees.getSelectedItem();
+            call = recordService.getReport(token, employees.get(employeeLogin).get_id(), from, to);
+        } else {
+            call = recordService.getReport(token, from, to);
+        }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        boolean success = writeResponseBodyToDisk(response.body(), true);
+                        if (!success) {
+                            Toast.makeText(getContext(), "Fallo en la descarga. Inténtalo de nuevo", Toast.LENGTH_SHORT).show();
+                        }
+                    } else
+                        Toast.makeText(getContext(), "No se ha podido descargar el reporte", Toast.LENGTH_SHORT).show();
+
+                } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_SHORT).show();
+                    onTokenNotValid();
+                } else {
+                    Log.d(TAG, response.toString());
+                    Toast.makeText(getContext(), "Algo salio mal", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, t.getLocalizedMessage());
+                Toast.makeText(getContext(), "Fallo al descargar el reporte de horas", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openFile(File file) {
+
+        Intent target = new Intent(Intent.ACTION_VIEW);
+        target.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri apkURI = FileProvider.getUriForFile(getContext(), getContext().getApplicationContext().getPackageName()+".provider", file);
+            target.setDataAndType(apkURI, "application/pdf");
+        } else {
+            target.setDataAndType(Uri.fromFile(file), "application/pdf");
+        }
+        target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Intent intent = Intent.createChooser(target, "Abrir reporte");
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body, boolean openAtFinish) {
+        try {
+            String filename = prefs.getString(SharedPreferencesKeys.USER_LOGIN, "")+"-";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            filename += sdf.format(new Date());
+            Log.d(TAG, "Type: " + body.contentType().toString());
+            File futureStudioFile = new File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    filename+".pdf"
+            );
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) break;
+                    outputStream.write(fileReader, 0, read);
+                    fileSizeDownloaded += read;
+                    Log.d(TAG, "File download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+                outputStream.flush();
+                Log.d(TAG, "Descarga compleatada");
+                if (openAtFinish) openFile(futureStudioFile);
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) inputStream.close();
+                if (outputStream != null) outputStream.close();
+            }
+
+        } catch (IOException e) {
+            return false;
         }
     }
 

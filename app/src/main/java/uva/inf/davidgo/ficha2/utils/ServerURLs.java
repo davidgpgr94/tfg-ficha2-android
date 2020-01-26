@@ -11,6 +11,7 @@ public final class ServerURLs {
     public static final String URL_QUICK_EXIT = ROOT_URL + REST_API + "/quick_exit";
 
     public static final String URL_GET_RECORDS = ROOT_URL + REST_API + "/records";
+    public static final String URL_GET_REPORT = ROOT_URL + REST_API + "/report";
 
     public static final String URL_GET_INCOMPLETED_RECORD = ROOT_URL + REST_API + "/incompleted_record";
 
