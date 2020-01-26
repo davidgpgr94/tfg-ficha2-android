@@ -2,7 +2,7 @@ package uva.inf.davidgo.ficha2.utils;
 
 public final class ServerURLs {
 
-    public static final String ROOT_URL = "http://192.168.1.44:3977";
+    public static final String ROOT_URL = "https://ficha2-api.herokuapp.com";
     public static final String REST_API = "/ficha/api/v1";
 
     public static final String URL_NEW_RECORD = ROOT_URL + REST_API + "/records";
