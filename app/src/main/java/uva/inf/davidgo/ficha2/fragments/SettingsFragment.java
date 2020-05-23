@@ -2,24 +2,24 @@ package uva.inf.davidgo.ficha2.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 import uva.inf.davidgo.ficha2.R;
 
 /**
  * A simple {@link Fragment} subclass.
+ * SettingsFragment
  */
-public class SettingsFragment extends BaseFragment implements NavigationView.OnNavigationItemSelectedListener {
+public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
-    NavigationView navigationView;
+
+    Button btnChangePassword;
 
 
     public SettingsFragment() {
@@ -32,8 +32,8 @@ public class SettingsFragment extends BaseFragment implements NavigationView.OnN
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        navigationView = view.findViewById(R.id.settings_nav);
-        navigationView.setNavigationItemSelectedListener(this);
+        btnChangePassword = view.findViewById(R.id.settings_password);
+        btnChangePassword.setOnClickListener(this);
 
         return view;
     }
@@ -44,24 +44,19 @@ public class SettingsFragment extends BaseFragment implements NavigationView.OnN
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        Fragment myFragment = null;
-
-        boolean fragmentSelected = false;
-
-        if (id == R.id.settings_password) {
-            myFragment = new ChangePasswordFragment();
-            fragmentSelected = true;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.settings_password:
+                changePassword();
+                break;
         }
+    }
 
-        if (fragmentSelected) {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(R.id.content_main, myFragment).addToBackStack("settings").commit();
-            }
+    private void changePassword() {
+        Fragment changePasswordFragment = new ChangePasswordFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if (fragmentManager != null) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, changePasswordFragment).addToBackStack("settings").commit();
         }
-        return false;
     }
 }

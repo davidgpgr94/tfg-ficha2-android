@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tv_time_entry" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,14 +31,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_time_entry_record_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="18:00" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_time_exit_record_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

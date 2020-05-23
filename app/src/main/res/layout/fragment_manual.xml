@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_light"
     tools:context=".fragments.ManualFragment">
 
     <android.support.v4.widget.NestedScrollView
@@ -25,7 +24,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_complete_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,19 +58,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Fecha" />
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Entrada" />
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -82,21 +81,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tv_incompleted_record_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="27-12-2019" />
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tv_incompleted_record_entry"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="00:00" />
 
-                        <TextView
+                        <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tv_incompleted_record_exit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -121,7 +120,7 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="100dp" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +134,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +158,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_time_entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,7 +183,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toBottomOf="@+id/et_date" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_time_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,7 +210,7 @@
 
             <Button
                 android:id="@+id/btn_send"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
@@ -224,7 +223,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_timezone_exit" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_timezone_entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -234,7 +233,7 @@
                 app:layout_constraintStart_toStartOf="@+id/et_time_entry"
                 app:layout_constraintTop_toBottomOf="@+id/et_time_entry" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_timezone_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
