@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/mainBackgroundColor</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="actionBarTabTextStyle">@style/ActionBar</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,5 +21,22 @@
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+    <!-- Buttons Styles -->
+    <style name="AppTheme.EntryButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/entryColor</item>
+        <item name="android:textColor">@color/entryTextColor</item>
+    </style>
+
+    <style name="AppTheme.ExitButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/exitColor</item>
+        <item name="android:textColor">@color/exitTextColor</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
 
 </resources>
