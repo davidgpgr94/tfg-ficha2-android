@@ -7,15 +7,15 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="quick_record">Registro rápido</string>
     <string name="manual_record">Registro manual</string>
     <string name="nav_settings">Ajustes</string>
     <string name="nav_title_summary">Resumen de registros</string>
-    <string name="my_records">Mis registros</string>
-    <string name="btn_quick_entry">Registrar entrada</string>
-    <string name="btn_quick_exit">Registrar salida</string>
+    <string name="my_records">Consultar registros</string>
+    <string name="btn_quick_entry">Entrada ahora</string>
+    <string name="btn_quick_exit">Salida ahora</string>
 
     <!-- Pickers -->
     <string name="formato_fecha">dd/mm/yyyy</string>

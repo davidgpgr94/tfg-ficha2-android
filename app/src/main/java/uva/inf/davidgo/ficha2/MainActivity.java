@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.contains(SharedPreferencesKeys.TOKEN)) {
             startActivity(new Intent(this, LoginActivity.class));
-            Toast.makeText(this, "La sesión se ha cerrado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "La sesión se ha cerrado.", Toast.LENGTH_LONG).show();
             finish();
         } else {
             Fragment main_fragment = new MainFragment();

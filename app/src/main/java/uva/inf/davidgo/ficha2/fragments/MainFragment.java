@@ -145,14 +145,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             public void onResponse(Call<Record> call, Response<Record> response) {
                 pb_spinner_quick.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), response.body().getEntry().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), response.body().getEntry().toString(), Toast.LENGTH_LONG).show();
                     pb_spinner_quick.setVisibility(View.VISIBLE);
                     setUpRecordsAndButtons();
                 } else {
                     try {
                         Log.d(TAG, "MainFragment - quickEntry");
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -166,7 +166,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Record> call, Throwable t) {
                 pb_spinner_quick.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -181,14 +181,14 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             public void onResponse(Call<Record> call, Response<Record> response) {
                 pb_spinner_quick.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), response.body().getExit().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), response.body().getExit().toString(), Toast.LENGTH_LONG).show();
                     pb_spinner_quick.setVisibility(View.VISIBLE);
                     setUpRecordsAndButtons();
                 } else {
                     try {
                         Log.d(TAG, "MainFragment - quickExit");
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -202,7 +202,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Record> call, Throwable t) {
                 pb_spinner_quick.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -231,7 +231,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     try {
                         Log.d(TAG, "MainFragment - setUpRecordsAndButtons");
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         Log.d("MAIN_GET_CATCH_JSONExc", e.getMessage());
@@ -248,7 +248,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             public void onFailure(Call<RecordsContext> call, Throwable t) {
                 pb_spinner_quick.setVisibility(View.GONE);
                 Log.d("MAIN_GET_OnFailure:", t.getLocalizedMessage());
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -287,7 +287,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     try {
                         Log.d(TAG, "MainFragment - setUpButtons");
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -301,7 +301,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
             public void onFailure(Call<Record> call, Throwable t) {
                 pb_spinner_quick.setVisibility(View.GONE);
                 t.getCause().printStackTrace();
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -101,7 +101,7 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     progressBar.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Inicie sesión con la nueva contraseña", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Inicie sesión con la nueva contraseña", Toast.LENGTH_LONG).show();
                         onTokenNotValid();
                     } else {
                         try {
@@ -111,7 +111,7 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
                             tilOldPassworad.setError(strMsg);
                             tilNewPassword.setError(strMsg);
                             tilRepeatPassword.setError(strMsg);
-                            Toast.makeText(getContext(), strMsg, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), strMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -123,7 +123,7 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     if (t instanceof java.net.SocketTimeoutException) {
-                        Toast.makeText(getContext(), "Se ha perdido la conexión con el servidor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Se ha perdido la conexión con el servidor", Toast.LENGTH_LONG).show();
                     }
                     onTokenNotValid();
                     progressBar.setVisibility(View.GONE);

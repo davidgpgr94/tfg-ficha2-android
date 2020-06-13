@@ -369,7 +369,7 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                 public void onResponse(Call<Record> call, Response<Record> response) {
                     pb_spinner_manual.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Registro realizado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Registro realizado satisfactoriamente", Toast.LENGTH_LONG).show();
                         et_date.setText("");
                         et_time_entry.setText("");
                         et_time_exit.setText("");
@@ -377,12 +377,12 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                         setIncompletedRecord();
                     } else if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                         Log.d(TAG, "ManualFragment - manualRecord");
-                        Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                         onTokenNotValid();
                     } else {
                         try {
                             JSONObject msg = new JSONObject(response.errorBody().string());
-                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -394,12 +394,12 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                 @Override
                 public void onFailure(Call<Record> call, Throwable t) {
                     pb_spinner_manual.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         } catch (ParseException e) {
             pb_spinner_manual.setVisibility(View.GONE);
-            Toast.makeText(getContext(), "Algo ha salido mal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Algo ha salido mal", Toast.LENGTH_LONG).show();
             Log.d("MANUAL_RECORD_CATCH", e.getMessage());
         }
     }
@@ -423,7 +423,7 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                 public void onResponse(Call<Record> call, Response<Record> response) {
                     pb_spinner_manual.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Registro completado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Registro completado satisfactoriamente", Toast.LENGTH_LONG).show();
                         et_date.setText("");
                         et_time_entry.setText("");
                         et_time_exit.setText("");
@@ -431,12 +431,12 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                         setIncompletedRecord();
                     } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                         Log.d(TAG, "ManualFragment - manualExit");
-                        Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                         onTokenNotValid();
                     } else {
                         try {
                             JSONObject msg = new JSONObject(response.errorBody().string());
-                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -448,12 +448,12 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                 @Override
                 public void onFailure(Call<Record> call, Throwable t) {
                     pb_spinner_manual.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         } catch (ParseException e) {
             pb_spinner_manual.setVisibility(View.GONE);
-            Toast.makeText(getContext(), "Algo ha salido mal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Algo ha salido mal", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
@@ -500,13 +500,13 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
                     }
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     Log.d(TAG, "ManualFragment - setIncompletedRecord");
-                    Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                     onTokenNotValid();
                 } else {
                     incompletedRecord = null;
                     try {
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -519,7 +519,7 @@ public class ManualFragment extends BaseFragment implements View.OnClickListener
             public void onFailure(Call<Record> call, Throwable t) {
                 pb_spinner_manual.setVisibility(View.GONE);
                 incompletedRecord = null;
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

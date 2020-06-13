@@ -93,11 +93,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     try {
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(LoginActivity.this, msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, msg.getString("message"), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
-                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
-                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 pb_spinner.setVisibility(View.GONE);
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

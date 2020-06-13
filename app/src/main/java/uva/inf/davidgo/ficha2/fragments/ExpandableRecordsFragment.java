@@ -253,11 +253,11 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     Log.d(TAG, "Total records: "+serverResponse.getTotal_records());
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     Log.d(TAG, "ExpandableRecordsFragment - loadData(page, timeRange)");
-                    Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                     onTokenNotValid();
                 } else {
                     Log.d(TAG, "En donde loadData de 2");
-                    Toast.makeText(getContext(), "Response not successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Algo ha ido mal", Toast.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -336,24 +336,24 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     if (response.body() != null) {
                         boolean success = writeResponseBodyToDisk(response.body(), true);
                         if (!success) {
-                            Toast.makeText(getContext(), "Fallo en la descarga. Inténtalo de nuevo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Fallo en la descarga. Inténtalo de nuevo", Toast.LENGTH_LONG).show();
                         }
                     } else
-                        Toast.makeText(getContext(), "No se ha podido descargar el reporte", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "No se ha podido descargar el reporte", Toast.LENGTH_LONG).show();
 
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                     onTokenNotValid();
                 } else {
                     Log.d(TAG, response.toString());
-                    Toast.makeText(getContext(), "Algo salio mal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Algo salio mal", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d(TAG, t.getLocalizedMessage());
-                Toast.makeText(getContext(), "Fallo al descargar el reporte de horas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Fallo al descargar el reporte de horas", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -503,12 +503,12 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     );
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     Log.d(TAG, "ExpandableRecordsFragment - setUpEmployeesSpinner");
-                    Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                     onTokenNotValid();
                 } else {
                     try {
                         JSONObject msg = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -517,7 +517,7 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
 
             @Override
             public void onFailure(Call<List<Employee>> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -546,11 +546,11 @@ public class ExpandableRecordsFragment extends BaseFragment implements View.OnCl
                     resultAction(serverResponse);
                 } else if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     Log.d(TAG, "ExpandableRecordsFragment - loadData(page, timeRange, employeeLogin)");
-                    Toast.makeText(getContext(), "Session expired", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La sesión ha expirado", Toast.LENGTH_LONG).show();
                     onTokenNotValid();
                 } else {
                     Log.d(TAG, "En donde loadData de 3");
-                    Toast.makeText(getContext(), "Response not successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Algo ha ido mal", Toast.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
             }

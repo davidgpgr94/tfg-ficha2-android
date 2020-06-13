@@ -93,7 +93,7 @@ public class NewEmployeeFragment extends BaseFragment implements View.OnClickLis
                 public void onResponse(Call<Employee> call, Response<Employee> response) {
                     progressBar.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Empleado añadido satisfactoriamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Empleado añadido satisfactoriamente", Toast.LENGTH_LONG).show();
                         etName.getText().clear();
                         etSurname.getText().clear();
                         etUser.getText().clear();
@@ -102,7 +102,7 @@ public class NewEmployeeFragment extends BaseFragment implements View.OnClickLis
                     } else {
                         try {
                             JSONObject msg = new JSONObject(response.errorBody().string());
-                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), msg.getString("message"), Toast.LENGTH_LONG).show();
                             if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) onTokenNotValid();
                         } catch (JSONException e) {
                             e.printStackTrace();

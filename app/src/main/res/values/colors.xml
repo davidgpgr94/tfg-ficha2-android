@@ -12,7 +12,9 @@
     <color name="mainTextColor">#000000</color>
 
     <color name="exitColor">#ca3636</color>
+    <color name="exitColorDisabled">#cf5f5f</color>
     <color name="exitTextColor">#ffffff</color>
+    <color name="exitTextColorDisabled">#303030</color>
     <color name="entryColor">#009b0d</color>
     <color name="entryTextColor">#ffffff</color>
     <color name="splashBackgroundColor">#1565c0</color>
